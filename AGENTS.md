@@ -289,6 +289,14 @@ The application does not implement i18n.
 
 Blog posts about the project may be written in Chinese first, with an optional English version.
 
+## Git commits
+
+Write commit messages entirely in English and follow the Conventional Commits specification.
+
+Add a scope when it materially clarifies the area affected by the change. Do not add a scope when the unscoped type is already clear.
+
+Use a concise imperative subject. When a commit needs a body, summarize its changes as `-` unordered list items.
+
 ## Development principles
 
 Prefer Android platform and Jetpack APIs over third-party libraries.
