@@ -213,6 +213,17 @@ Prefer handwritten fakes over mocking frameworks.
 
 Do not add MockK or Mockito unless a concrete testing problem justifies them.
 
+### Test design
+
+* Test stable observable behavior, not implementation details.
+* Before adding a test file, search for an existing owning test suite.
+* Prefer extending an existing suite over creating a new test file.
+* Do not create one regression test file per bug.
+* When three or more tests differ mainly by data, consider table-driven or property tests.
+* Avoid duplicating the same behavior across unit, integration, and end-to-end tests.
+* Snapshot or expected-value changes must be justified by a specification change.
+* Tests may be deleted when a stronger test already covers the same guarantee.
+
 ### JVM tests
 
 Run frequently and in CI.
