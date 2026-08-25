@@ -23,3 +23,4 @@ dependencyResolutionManagement {
 rootProject.name = "totp-android"
 include(":app")
 include(":core")
+include(":data")
