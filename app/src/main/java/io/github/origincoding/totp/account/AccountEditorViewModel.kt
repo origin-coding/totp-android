@@ -204,10 +204,6 @@ class AccountEditorViewModel internal constructor(
         }
     }
 
-    fun clearError() {
-        _uiState.update { it.copy(errorMessage = null) }
-    }
-
     private fun loadAccount(id: Long) {
         viewModelScope.launch {
             try {
@@ -240,7 +236,8 @@ class AccountEditorViewModel internal constructor(
 
     private inline fun updateForm(transform: AccountEditorUiState.() -> AccountEditorUiState) {
         _uiState.update { state ->
-            if (state.isSaving || state.isDeleting) state else state.transform().copy(errorMessage = null)
+            if (state.isSaving || state.isDeleting) state else state.transform()
+                .copy(errorMessage = null)
         }
     }
 

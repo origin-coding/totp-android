@@ -68,7 +68,7 @@ fun QrScannerScreen(
     var hasCameraPermission by remember {
         mutableStateOf(
             ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA) ==
-                PackageManager.PERMISSION_GRANTED,
+                    PackageManager.PERMISSION_GRANTED,
         )
     }
     var permissionRequested by rememberSaveable { mutableStateOf(false) }
@@ -115,7 +115,6 @@ fun QrScannerScreen(
         when {
             !cameraAvailable -> {
                 ScannerUnavailableContent(
-                    message = "No camera is available on this device.",
                     onBack = onBack,
                     modifier = Modifier
                         .fillMaxSize()
@@ -304,7 +303,6 @@ private fun CameraPermissionContent(
 
 @Composable
 private fun ScannerUnavailableContent(
-    message: String,
     onBack: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -313,7 +311,7 @@ private fun ScannerUnavailableContent(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {
-        Text(message, style = MaterialTheme.typography.titleMedium)
+        Text("No camera is available on this device.", style = MaterialTheme.typography.titleMedium)
         TextButton(onClick = onBack, modifier = Modifier.padding(top = 16.dp)) {
             Text("Back to accounts")
         }
