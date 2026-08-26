@@ -43,16 +43,24 @@ enum class AccountEditorCompletion {
 class AccountEditorViewModel internal constructor(
     private val repository: TotpAccountRepository,
     private val accountId: Long?,
+    initialOtpAuthUri: String? = null,
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(
-        AccountEditorUiState(isLoading = accountId != null),
+        AccountEditorUiState(
+            otpAuthUri = initialOtpAuthUri.orEmpty(),
+            isLoading = accountId != null,
+        ),
     )
     val uiState: StateFlow<AccountEditorUiState> = _uiState.asStateFlow()
 
     val isAdding: Boolean = accountId == null
 
     init {
-        if (accountId != null) loadAccount(accountId)
+        if (accountId != null) {
+            loadAccount(accountId)
+        } else if (initialOtpAuthUri != null) {
+            applyOtpAuthUri()
+        }
     }
 
     fun updateAccountName(value: String) = updateForm { copy(accountName = value) }
@@ -240,9 +248,16 @@ class AccountEditorViewModel internal constructor(
         fun factory(
             repository: TotpAccountRepository,
             accountId: Long?,
+            initialOtpAuthUri: String? = null,
         ): ViewModelProvider.Factory =
             viewModelFactory {
-                initializer { AccountEditorViewModel(repository, accountId) }
+                initializer {
+                    AccountEditorViewModel(
+                        repository = repository,
+                        accountId = accountId,
+                        initialOtpAuthUri = initialOtpAuthUri,
+                    )
+                }
             }
     }
 }

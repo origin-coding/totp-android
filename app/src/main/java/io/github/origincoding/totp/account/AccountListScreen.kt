@@ -67,6 +67,7 @@ fun AccountListScreen(
     uiState: AccountListUiState,
     onToggleAccount: (Long) -> Unit,
     onAddAccount: (AddAccountMethod) -> Unit,
+    onScanQrCode: () -> Unit,
     onEditAccount: (Long) -> Unit,
     onClearError: () -> Unit,
     modifier: Modifier = Modifier,
@@ -94,6 +95,10 @@ fun AccountListScreen(
             AddAccountMenu(
                 expanded = addMenuExpanded,
                 onToggle = { addMenuExpanded = !addMenuExpanded },
+                onScanQrCode = {
+                    addMenuExpanded = false
+                    onScanQrCode()
+                },
                 onSelect = { method ->
                     addMenuExpanded = false
                     onAddAccount(method)
@@ -171,6 +176,7 @@ fun AccountListScreen(
 private fun AddAccountMenu(
     expanded: Boolean,
     onToggle: () -> Unit,
+    onScanQrCode: () -> Unit,
     onSelect: (AddAccountMethod) -> Unit,
 ) {
     Column(
@@ -182,6 +188,11 @@ private fun AddAccountMenu(
                 horizontalAlignment = Alignment.End,
                 verticalArrangement = Arrangement.spacedBy(12.dp),
             ) {
+                AddAccountAction(
+                    label = "Scan QR code",
+                    iconResId = R.drawable.ic_qr_code_scanner,
+                    onClick = onScanQrCode,
+                )
                 AddAccountAction(
                     label = "Paste URI",
                     iconResId = R.drawable.ic_content_paste,

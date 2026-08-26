@@ -18,7 +18,7 @@ class AccountListScreenTest {
     val composeRule = createComposeRule()
 
     @Test
-    fun addMenuExposesBothMethodsAndSelectsSetupKey() {
+    fun addMenuExposesMethodsAndSelectsSetupKey() {
         var selectedMethod: AddAccountMethod? = null
         composeRule.setContent {
             MaterialTheme {
@@ -26,6 +26,7 @@ class AccountListScreenTest {
                     uiState = AccountListUiState(isLoading = false),
                     onToggleAccount = {},
                     onAddAccount = { selectedMethod = it },
+                    onScanQrCode = {},
                     onEditAccount = {},
                     onClearError = {},
                 )
@@ -33,6 +34,7 @@ class AccountListScreenTest {
         }
 
         composeRule.onNodeWithContentDescription("Add account").performClick()
+        composeRule.onNodeWithText("Scan QR code").assertIsDisplayed()
         composeRule.onNodeWithText("Paste URI").assertIsDisplayed()
         composeRule.onNodeWithText("Setup key").assertIsDisplayed().performClick()
 

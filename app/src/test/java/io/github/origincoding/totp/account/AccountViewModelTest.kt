@@ -87,14 +87,15 @@ class AccountEditorViewModelTest {
     fun `TOTP URI populates and saves the add form`() =
         runTest(mainDispatcherRule.testDispatcher) {
             val repository = FakeTotpAccountRepository()
-            val viewModel = AccountEditorViewModel(repository, accountId = null)
-            viewModel.updateOtpAuthUri(
-                "otpauth://totp/Example:user@example.com" +
-                    "?secret=JBSWY3DPEHPK3PXP&issuer=Example" +
-                    "&algorithm=SHA256&digits=8&period=45",
+            val otpAuthUri = "otpauth://totp/Example:user@example.com" +
+                "?secret=JBSWY3DPEHPK3PXP&issuer=Example" +
+                "&algorithm=SHA256&digits=8&period=45"
+            val viewModel = AccountEditorViewModel(
+                repository = repository,
+                accountId = null,
+                initialOtpAuthUri = otpAuthUri,
             )
 
-            viewModel.applyOtpAuthUri()
             val populatedState = viewModel.uiState.value
             assertTrue(populatedState.isOtpAuthUriApplied)
             assertEquals("user@example.com", populatedState.accountName)

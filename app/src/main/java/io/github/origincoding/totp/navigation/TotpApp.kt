@@ -3,6 +3,9 @@ package io.github.origincoding.totp.navigation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.compose.LifecycleStartEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -20,6 +23,7 @@ import io.github.origincoding.totp.account.AccountListViewModel
 import io.github.origincoding.totp.account.ReplaceSecretScreen
 import io.github.origincoding.totp.account.ReplaceSecretViewModel
 import io.github.origincoding.totp.data.account.TotpAccountRepository
+import io.github.origincoding.totp.scanner.QrScannerScreen
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -29,6 +33,9 @@ private data object AccountListRoute : NavKey
 private data class AddAccountRoute(
     val method: AddAccountMethod,
 ) : NavKey
+
+@Serializable
+private data object QrScannerRoute : NavKey
 
 @Serializable
 private data class EditAccountRoute(
@@ -43,6 +50,7 @@ private data class ReplaceSecretRoute(
 @Composable
 fun TotpApp(repository: TotpAccountRepository) {
     val backStack = rememberNavBackStack(AccountListRoute)
+    var pendingScannedUri by remember { mutableStateOf<String?>(null) }
 
     NavDisplay(
         backStack = backStack,
@@ -70,6 +78,10 @@ fun TotpApp(repository: TotpAccountRepository) {
                         viewModel.collapseAccount()
                         backStack.add(AddAccountRoute(method))
                     },
+                    onScanQrCode = {
+                        viewModel.collapseAccount()
+                        backStack.add(QrScannerRoute)
+                    },
                     onEditAccount = { accountId ->
                         viewModel.collapseAccount()
                         backStack.add(EditAccountRoute(accountId))
@@ -80,9 +92,17 @@ fun TotpApp(repository: TotpAccountRepository) {
 
             entry<AddAccountRoute> { route ->
                 val viewModel = viewModel<AccountEditorViewModel>(
-                    factory = AccountEditorViewModel.factory(repository, accountId = null),
+                    factory = AccountEditorViewModel.factory(
+                        repository = repository,
+                        accountId = null,
+                        initialOtpAuthUri = pendingScannedUri,
+                    ),
                 )
                 val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+                LaunchedEffect(Unit) {
+                    pendingScannedUri = null
+                }
 
                 LaunchedEffect(uiState.completion) {
                     if (uiState.completion != null) backStack.removeLastOrNull()
@@ -103,6 +123,17 @@ fun TotpApp(repository: TotpAccountRepository) {
                     onSave = viewModel::save,
                     onReplaceSecret = {},
                     onDelete = {},
+                    onBack = { backStack.removeLastOrNull() },
+                )
+            }
+
+            entry<QrScannerRoute> {
+                QrScannerScreen(
+                    onQrCodeScanned = { otpAuthUri ->
+                        pendingScannedUri = otpAuthUri
+                        backStack.removeLastOrNull()
+                        backStack.add(AddAccountRoute(AddAccountMethod.OTP_AUTH_URI))
+                    },
                     onBack = { backStack.removeLastOrNull() },
                 )
             }
