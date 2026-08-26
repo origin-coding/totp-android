@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+    width="1024"
+    height="1024"
+    viewBox="0 0 1024 1024">
+  <defs>
+    <linearGradient id="ring" x1="260" y1="250" x2="720" y2="760" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#E7B2F7" />
+      <stop offset="0.46" stop-color="#D99DF3" />
+      <stop offset="0.72" stop-color="#AE7CF1" />
+      <stop offset="1" stop-color="#D9A8F2" />
+    </linearGradient>
+    <linearGradient id="pinkDot" x1="520" y1="430" x2="770" y2="630" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#E9B2F7" />
+      <stop offset="1" stop-color="#D791EF" />
+    </linearGradient>
+    <linearGradient id="paleDot" x1="530" y1="420" x2="760" y2="640" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FAF8FF" />
+      <stop offset="1" stop-color="#DED7F8" />
+    </linearGradient>
+  </defs>
+
+  <path
+      d="M651.8 352.7 A238 238 0 1 0 651.8 671.3"
+      fill="none"
+      stroke="url(#ring)"
+      stroke-width="108"
+      stroke-linecap="round" />
+
+  <circle cx="555" cy="466" r="40" fill="url(#pinkDot)" />
+  <circle cx="650" cy="466" r="40" fill="url(#paleDot)" />
+  <circle cx="745" cy="466" r="40" fill="url(#pinkDot)" />
+  <circle cx="555" cy="566" r="40" fill="url(#paleDot)" />
+  <circle cx="650" cy="566" r="40" fill="url(#pinkDot)" />
+  <circle cx="745" cy="566" r="40" fill="url(#paleDot)" />
+</svg>
