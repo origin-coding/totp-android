@@ -29,5 +29,8 @@ dependencies {
     implementation(libs.androidx.datastore.preferences)
     implementation(libs.androidx.room3.runtime)
     implementation(libs.androidx.sqlite.framework)
+    implementation(libs.jetbrains.kotlinx.coroutines.core)
     ksp(libs.androidx.room3.compiler)
+    testImplementation(libs.jetbrains.kotlinx.coroutines.test)
+    testImplementation(libs.junit)
 }
