@@ -27,6 +27,7 @@ class AccountListScreenTest {
                     onToggleAccount = {},
                     onAddAccount = { selectedMethod = it },
                     onScanQrCode = {},
+                    onOpenSettings = {},
                     onEditAccount = {},
                     onClearError = {},
                 )

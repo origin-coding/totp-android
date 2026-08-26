@@ -24,6 +24,7 @@ import io.github.origincoding.totp.account.ReplaceSecretScreen
 import io.github.origincoding.totp.account.ReplaceSecretViewModel
 import io.github.origincoding.totp.data.account.TotpAccountRepository
 import io.github.origincoding.totp.scanner.QrScannerScreen
+import io.github.origincoding.totp.settings.SettingsScreen
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -38,6 +39,9 @@ private data class AddAccountRoute(
 private data object QrScannerRoute : NavKey
 
 @Serializable
+private data object SettingsRoute : NavKey
+
+@Serializable
 private data class EditAccountRoute(
     val accountId: Long,
 ) : NavKey
@@ -48,7 +52,15 @@ private data class ReplaceSecretRoute(
 ) : NavKey
 
 @Composable
-fun TotpApp(repository: TotpAccountRepository) {
+fun TotpApp(
+    repository: TotpAccountRepository,
+    appLockEnabled: Boolean,
+    authenticationAvailable: Boolean,
+    appLockSettingInProgress: Boolean,
+    appLockErrorMessage: String?,
+    onEnableAppLock: () -> Unit,
+    onDisableAppLock: () -> Unit,
+) {
     val backStack = rememberNavBackStack(AccountListRoute)
     var pendingScannedUri by remember { mutableStateOf<String?>(null) }
 
@@ -81,6 +93,10 @@ fun TotpApp(repository: TotpAccountRepository) {
                     onScanQrCode = {
                         viewModel.collapseAccount()
                         backStack.add(QrScannerRoute)
+                    },
+                    onOpenSettings = {
+                        viewModel.collapseAccount()
+                        backStack.add(SettingsRoute)
                     },
                     onEditAccount = { accountId ->
                         viewModel.collapseAccount()
@@ -134,6 +150,18 @@ fun TotpApp(repository: TotpAccountRepository) {
                         backStack.removeLastOrNull()
                         backStack.add(AddAccountRoute(AddAccountMethod.OTP_AUTH_URI))
                     },
+                    onBack = { backStack.removeLastOrNull() },
+                )
+            }
+
+            entry<SettingsRoute> {
+                SettingsScreen(
+                    appLockEnabled = appLockEnabled,
+                    authenticationAvailable = authenticationAvailable,
+                    isUpdating = appLockSettingInProgress,
+                    errorMessage = appLockErrorMessage,
+                    onEnableAppLock = onEnableAppLock,
+                    onDisableAppLock = onDisableAppLock,
                     onBack = { backStack.removeLastOrNull() },
                 )
             }

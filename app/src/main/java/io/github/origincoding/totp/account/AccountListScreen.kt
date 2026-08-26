@@ -32,6 +32,7 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -68,6 +69,7 @@ fun AccountListScreen(
     onToggleAccount: (Long) -> Unit,
     onAddAccount: (AddAccountMethod) -> Unit,
     onScanQrCode: () -> Unit,
+    onOpenSettings: () -> Unit,
     onEditAccount: (Long) -> Unit,
     onClearError: () -> Unit,
     modifier: Modifier = Modifier,
@@ -90,7 +92,19 @@ fun AccountListScreen(
 
     Scaffold(
         modifier = modifier.fillMaxSize(),
-        topBar = { TopAppBar(title = { Text("TOTP accounts") }) },
+        topBar = {
+            TopAppBar(
+                title = { Text("TOTP accounts") },
+                actions = {
+                    IconButton(onClick = onOpenSettings) {
+                        Icon(
+                            painter = painterResource(R.drawable.ic_settings),
+                            contentDescription = "Settings",
+                        )
+                    }
+                },
+            )
+        },
         floatingActionButton = {
             AddAccountMenu(
                 expanded = addMenuExpanded,
