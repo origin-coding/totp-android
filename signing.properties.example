@@ -1,0 +1,6 @@
+# Copy this file to signing.properties and replace every placeholder.
+# signing.properties is ignored by Git and must never be committed.
+storeFile=C:/absolute/path/to/totp-release.jks
+storePassword=replace-with-keystore-password
+keyAlias=totp-release
+keyPassword=replace-with-key-password

@@ -191,7 +191,9 @@ app/build/outputs/apk/debug/app-debug.apk
 
 ## 分发
 
-签名 APK 计划通过 GitHub Releases 发布。Release 签名材料保存在仓库之外。CI 和签名 Release 自动化将在首次发布准备过程中加入。
+持续集成会在推送和拉取请求时运行单元测试、Android Lint 和 Debug APK 构建。版本标签会触发单独的工作流，构建并验证签名 APK、生成 SHA-256 校验值，并通过 GitHub Releases 发布文件。
+
+Release 签名材料保存在仓库之外。有关 Keystore、本地构建和 GitHub Actions Secret 的配置方法，请参阅 [Release signing](docs/release-signing.md)。
 
 Google Play 分发和其他平台不在本项目范围内。
 

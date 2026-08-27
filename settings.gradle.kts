@@ -1,8 +1,14 @@
 pluginManagement {
     repositories {
-        maven(url = "https://maven.aliyun.com/repository/google")
-        maven(url = "https://maven.aliyun.com/repository/gradle-plugin")
-        maven(url = "https://maven.aliyun.com/repository/public")
+        if (System.getenv("CI").equals("true", ignoreCase = true)) {
+            google()
+            mavenCentral()
+            gradlePluginPortal()
+        } else {
+            maven(url = "https://maven.aliyun.com/repository/google")
+            maven(url = "https://maven.aliyun.com/repository/gradle-plugin")
+            maven(url = "https://maven.aliyun.com/repository/public")
+        }
     }
 }
 
@@ -15,8 +21,13 @@ dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
 
     repositories {
-        maven(url = "https://maven.aliyun.com/repository/google")
-        maven(url = "https://maven.aliyun.com/repository/public")
+        if (System.getenv("CI").equals("true", ignoreCase = true)) {
+            google()
+            mavenCentral()
+        } else {
+            maven(url = "https://maven.aliyun.com/repository/google")
+            maven(url = "https://maven.aliyun.com/repository/public")
+        }
     }
 }
 

@@ -191,7 +191,9 @@ This is an educational project and has not undergone an independent security aud
 
 ## Distribution
 
-Signed APKs are intended to be published through GitHub Releases. Release signing material is kept outside the repository. CI and signed release automation will be added as part of the first-release preparation.
+Continuous integration runs the unit tests, Android Lint, and the debug APK build on pushes and pull requests. Version tags trigger a separate workflow that builds and verifies a signed APK, generates a SHA-256 checksum, and publishes the files through GitHub Releases.
+
+Release signing material is kept outside the repository. See [Release signing](docs/release-signing.md) for the keystore, local build, and GitHub Actions secret setup.
 
 Google Play distribution and other platforms are outside the scope of this project.
 
