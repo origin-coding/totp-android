@@ -92,7 +92,7 @@ jobs:
             echo "sdkmanager was not found under $sdk_root" >&2
             exit 1
           fi
-          "$sdkmanager" "platforms;android-37" "build-tools;36.0.0"
+          "$sdkmanager" "platforms;android-37.0" "build-tools;36.0.0"
 
       - name: Validate signing secrets
         shell: bash
