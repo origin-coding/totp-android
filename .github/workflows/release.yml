@@ -144,8 +144,7 @@ jobs:
           printf '%s\n' "$verification_output"
           signer_sha256="$(
             printf '%s\n' "$verification_output" |
-              sed -n 's/^Signer #1 certificate SHA-256 digest: //p' |
-              head -n 1 |
+              awk '/certificate SHA-256 digest:/ { print $NF; exit }' |
               tr '[:upper:]' '[:lower:]'
           )"
           if [[ "$signer_sha256" != "$EXPECTED_SIGNER_SHA256" ]]; then
