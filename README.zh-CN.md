@@ -4,7 +4,7 @@
 
 一款小型原生 Android 身份验证器，用于生成符合标准的基于时间的一次性密码（TOTP）。
 
-本仓库是一个专注于现代 Android 开发、Android 安全 API、自动化测试和 APK 分发的学习项目。目前正在为首次公开发布做准备。
+本仓库是一个专注于现代 Android 开发、Android 安全 API、自动化测试和 APK 分发的学习项目。签名构建通过 GitHub Releases 发布。
 
 ## 项目目标
 
@@ -191,9 +191,11 @@ app/build/outputs/apk/debug/app-debug.apk
 
 ## 分发
 
+请从 [GitHub Releases](https://github.com/origin-coding/totp-android/releases) 下载签名 APK。每个 Release 都包含 APK 及对应的 `.sha256` 校验文件，请在安装前验证 APK 的校验值。
+
 持续集成会在推送和拉取请求时运行单元测试、Android Lint 和 Debug APK 构建。版本标签会触发单独的工作流，构建并验证签名 APK、生成 SHA-256 校验值，并通过 GitHub Releases 发布文件。
 
-Release 签名材料保存在仓库之外。有关 Keystore、本地构建和 GitHub Actions Secret 的配置方法，请参阅 [Release signing](docs/release-signing.md)。
+Release 签名材料保存在仓库之外。受信任的 Release 证书指纹和签名流程记录在 [Release signing](docs/release-signing.md) 中。
 
 Google Play 分发和其他平台不在本项目范围内。
 

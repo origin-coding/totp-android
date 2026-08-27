@@ -4,7 +4,7 @@
 
 A small, native Android authenticator for generating standards-compliant time-based one-time passwords (TOTP).
 
-This repository is a focused learning project for modern Android development, Android security APIs, automated testing, and APK distribution. It is currently being prepared for its first public release.
+This repository is a focused learning project for modern Android development, Android security APIs, automated testing, and APK distribution. Signed builds are published through GitHub Releases.
 
 ## Project goals
 
@@ -191,9 +191,11 @@ This is an educational project and has not undergone an independent security aud
 
 ## Distribution
 
+Download signed APKs from [GitHub Releases](https://github.com/origin-coding/totp-android/releases). Each release includes the APK and a corresponding `.sha256` checksum file. Verify the APK checksum before installing it.
+
 Continuous integration runs the unit tests, Android Lint, and the debug APK build on pushes and pull requests. Version tags trigger a separate workflow that builds and verifies a signed APK, generates a SHA-256 checksum, and publishes the files through GitHub Releases.
 
-Release signing material is kept outside the repository. See [Release signing](docs/release-signing.md) for the keystore, local build, and GitHub Actions secret setup.
+Release signing material is kept outside the repository. The trusted release certificate fingerprint and signing process are documented in [Release signing](docs/release-signing.md).
 
 Google Play distribution and other platforms are outside the scope of this project.
 
