@@ -44,7 +44,25 @@ jobs:
 
       - name: Install Android SDK components
         shell: bash
-        run: sdkmanager "platforms;android-37" "build-tools;36.0.0"
+        run: |
+          sdk_root="${ANDROID_HOME:-${ANDROID_SDK_ROOT:-}}"
+          if [[ -z "$sdk_root" ]]; then
+            echo "ANDROID_HOME and ANDROID_SDK_ROOT are not set" >&2
+            exit 1
+          fi
+          sdkmanager="$sdk_root/cmdline-tools/latest/bin/sdkmanager"
+          if [[ ! -x "$sdkmanager" ]]; then
+            sdkmanager="$(
+              find "$sdk_root/cmdline-tools" -type f -path '*/bin/sdkmanager' 2>/dev/null |
+                sort -V |
+                tail -n 1 || true
+            )"
+          fi
+          if [[ -z "$sdkmanager" || ! -x "$sdkmanager" ]]; then
+            echo "sdkmanager was not found under $sdk_root" >&2
+            exit 1
+          fi
+          "$sdkmanager" "platforms;android-37" "build-tools;36.0.0"
 
       - name: Run unit tests
         run: ./gradlew test --stacktrace
